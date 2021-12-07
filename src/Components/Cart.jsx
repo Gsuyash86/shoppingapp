@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 
 const Cart = ({ cart, removeFromCart, handleCheckout }) => {
   const totalPrice = cart.reduce(

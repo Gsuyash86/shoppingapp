@@ -7,6 +7,7 @@ import data from "./data";
 import { useState } from "react";
 import axios from "axios";
 import "./App.css";
+
 function App() {
   const [products] = useState(data);
   const [cart, setCart] = useState([]);
@@ -41,15 +42,16 @@ function App() {
       },
     };
 
+    console.log(payload);
+
     axios({
       method: "post",
       url: "https://janam.free.beeceptor.com",
-      data: payload,
+      data: JSON.stringify(payload),
     }).then((res) => console.log(res.data));
   };
 
   const removeFromCart = (productToRemove) => {
-    //TODO: do something here
     const productExist = cart.find((item) => item.id === productToRemove.id);
 
     if (productToRemove.quantity === 1) {
