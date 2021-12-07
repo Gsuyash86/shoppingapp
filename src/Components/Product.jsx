@@ -18,7 +18,8 @@ const Product = ({ products, addToCart }) => {
                   <img
                     className="card-img-top"
                     src={image}
-                    alt="Card image cap"
+                    alt="Card Image"
+                    style={{ width: "100%" }}
                   />
                   <div className="card-body">
                     <h5 className="card-title">{name}</h5>
