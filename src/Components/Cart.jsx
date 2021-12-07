@@ -34,7 +34,14 @@ const Cart = ({ cart, removeFromCart, handleCheckout }) => {
           })}
         </div>
         <div className="container">
-          {cart.length !== 0 ? <h3>Total Price : {totalPrice}$</h3> : " "}
+          {cart.length !== 0 ? (
+            <>
+              <h3>Total Price : {totalPrice}$</h3>
+              <h3>Total Products : {cart.length}</h3>
+            </>
+          ) : (
+            " "
+          )}
         </div>
         {cart.length !== 0 ? (
           <button
