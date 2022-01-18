@@ -1,16 +1,20 @@
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Cart from "./Components/Cart";
-import Product from "./Components/Product";
+// import Product from "./Components/Product";
 import NotFound from "./Components/NotFound";
 import data from "./data";
 import { useState } from "react";
 import axios from "axios";
 import "./App.css";
 
+const Product = lazy(() => import("./Components/Product"));
 function App() {
   const [products] = useState(data);
   const [cart, setCart] = useState([]);
+
+  // creating a theme , using context
 
   const totalPrice = cart.reduce(
     (cost, item) => cost + item.quantity * item.cost,
@@ -48,7 +52,7 @@ function App() {
       method: "post",
       url: "https://janam.free.beeceptor.com",
       data: JSON.stringify(payload),
-    }).then((res) => console.log(res.data));
+    }).then((res) => console.log(res.data.data));
   };
 
   const removeFromCart = (productToRemove) => {
@@ -69,31 +73,33 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Navbar />
-        <div className="container">
-          <Routes>
-            <Route
-              exact
-              path="/"
-              element={<Product products={products} addToCart={addToCart} />}
-            />
+      <Suspense fallback={<div className="container">Please wait ... </div>}>
+        <Router>
+          <Navbar />
+          <div className="container">
+            <Routes>
+              <Route
+                exact
+                path="/"
+                element={<Product products={products} addToCart={addToCart} />}
+              />
 
-            <Route
-              exact
-              path="/cart"
-              element={
-                <Cart
-                  cart={cart}
-                  removeFromCart={removeFromCart}
-                  handleCheckout={handleCheckout}
-                />
-              }
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </Router>
+              <Route
+                exact
+                path="/cart"
+                element={
+                  <Cart
+                    cart={cart}
+                    removeFromCart={removeFromCart}
+                    handleCheckout={handleCheckout}
+                  />
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </Router>
+      </Suspense>
     </>
   );
 }
